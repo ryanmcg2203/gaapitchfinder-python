@@ -1,9 +1,18 @@
 # gaapitchfinder
 
+[![PyPI version](https://img.shields.io/pypi/v/gaapitchfinder.svg)](https://pypi.org/project/gaapitchfinder/)
+[![Python versions](https://img.shields.io/pypi/pyversions/gaapitchfinder.svg)](https://pypi.org/project/gaapitchfinder/)
+[![Tests](https://github.com/ryanmcg2203/gaapitchfinder-python/actions/workflows/tests.yml/badge.svg)](https://github.com/ryanmcg2203/gaapitchfinder-python/actions/workflows/tests.yml)
+
 `gaapitchfinder` is a small, dependency-light Python package for loading and
 working with the [GAA Pitch Finder](https://gaapitchfinder.com) open dataset.
 It bundles the canonical CSV snapshot, so importing the package never makes a
 network request.
+
+The canonical website and source dataset are maintained in the
+[GAA Pitch Finder repository](https://github.com/ryanmcg2203/gaapitchfinder).
+The published Python package is available on
+[PyPI](https://pypi.org/project/gaapitchfinder/).
 
 ## Install
 
