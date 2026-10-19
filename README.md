@@ -75,3 +75,6 @@ ruff format --check .
 python -m build
 twine check dist/*
 ```
+
+Releases are published from version tags through GitHub Actions using PyPI
+Trusted Publishing. See `CONTRIBUTING.md` for the release procedure.

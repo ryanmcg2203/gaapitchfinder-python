@@ -34,3 +34,20 @@ Do not add network access to package import or data-loading code.
 
 Keep changes focused, add or update tests for behaviour changes, and include
 licensing or attribution updates when changing the bundled dataset.
+
+## Publishing
+
+Configure Trusted Publishing for the `testpypi` and `pypi` GitHub
+Environments before releasing. Use the **Publish Python package** workflow's
+manual `testpypi` option to rehearse a release. Publish to PyPI only by
+creating a version tag that matches `project.version` in `pyproject.toml`, for
+example:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+PyPI releases are immutable. Never reuse an uploaded version number.
