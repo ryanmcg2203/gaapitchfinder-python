@@ -20,8 +20,9 @@ def _coordinate(value: Real, name: str, lower: float, upper: float) -> float:
     return result
 
 
-def nearest_pitches(latitude: Real, longitude: Real, limit: int = 10,
-                    pitches: pd.DataFrame | None = None) -> pd.DataFrame:
+def nearest_pitches(
+    latitude: Real, longitude: Real, limit: int = 10, pitches: pd.DataFrame | None = None
+) -> pd.DataFrame:
     """Return the nearest geocoded pitches, with ``distance_km`` appended."""
     lat = _coordinate(latitude, "latitude", -90, 90)
     lon = _coordinate(longitude, "longitude", -180, 180)
@@ -38,8 +39,10 @@ def nearest_pitches(latitude: Real, longitude: Real, limit: int = 10,
     lat1, lon1 = math.radians(lat), math.radians(lon)
     dlat = latitudes - lat1
     dlon = longitudes - lon1
-    a = (dlat / 2).map(math.sin) ** 2 + latitudes.map(math.cos) * math.cos(lat1) * (dlon / 2).map(math.sin) ** 2
-    work["distance_km"] = (a.map(lambda value: 2 * 6371.0088 * math.asin(math.sqrt(value))))
+    a = (dlat / 2).map(math.sin) ** 2 + latitudes.map(math.cos) * math.cos(lat1) * (dlon / 2).map(
+        math.sin
+    ) ** 2
+    work["distance_km"] = a.map(lambda value: 2 * 6371.0088 * math.asin(math.sqrt(value)))
     return work.sort_values("distance_km", kind="mergesort").head(limit).reset_index(drop=True)
 
 
@@ -64,9 +67,11 @@ def to_geojson(pitches: pd.DataFrame) -> dict[str, Any]:
     for _, row in pitches.iterrows():
         latitude = pd.to_numeric(pd.Series([row.get("Latitude")]), errors="coerce").iloc[0]
         longitude = pd.to_numeric(pd.Series([row.get("Longitude")]), errors="coerce").iloc[0]
-        geometry = None if pd.isna(latitude) or pd.isna(longitude) else {
-            "type": "Point", "coordinates": [float(longitude), float(latitude)]
-        }
+        geometry = (
+            None
+            if pd.isna(latitude) or pd.isna(longitude)
+            else {"type": "Point", "coordinates": [float(longitude), float(latitude)]}
+        )
         properties = {str(column): _json_value(value) for column, value in row.items()}
         features.append({"type": "Feature", "geometry": geometry, "properties": properties})
     return {"type": "FeatureCollection", "features": features}

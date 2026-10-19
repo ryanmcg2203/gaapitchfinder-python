@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import Any
 
 import pandas as pd
@@ -16,7 +15,9 @@ def _canonical_field(field: str) -> str:
     try:
         return fields[field.casefold()]
     except KeyError as exc:
-        raise ValueError(f"Unknown dataset field {field!r}. Valid fields: {', '.join(DATASET_COLUMNS)}") from exc
+        raise ValueError(
+            f"Unknown dataset field {field!r}. Valid fields: {', '.join(DATASET_COLUMNS)}"
+        ) from exc
 
 
 def search_pitches(query: str, pitches: pd.DataFrame | None = None) -> pd.DataFrame:
@@ -29,7 +30,9 @@ def search_pitches(query: str, pitches: pd.DataFrame | None = None) -> pd.DataFr
     frame = load_pitches() if pitches is None else pitches
     mask = pd.Series(False, index=frame.index)
     for column in SEARCH_COLUMNS:
-        mask |= frame[column].astype("string").str.contains(query, case=False, regex=False, na=False)
+        mask |= (
+            frame[column].astype("string").str.contains(query, case=False, regex=False, na=False)
+        )
     return frame.loc[mask].reset_index(drop=True)
 
 

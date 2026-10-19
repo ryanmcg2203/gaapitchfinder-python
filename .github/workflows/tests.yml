@@ -18,3 +18,32 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e ".[test]"
       - run: python -m pytest
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m build
+      - run: twine check dist/*
+      - name: Smoke-test wheel installation
+        run: |
+          python -m venv /tmp/gaapitchfinder-wheel-test
+          /tmp/gaapitchfinder-wheel-test/bin/python -m pip install dist/*.whl
+          /tmp/gaapitchfinder-wheel-test/bin/python -c "import gaapitchfinder as gaa; assert len(gaa.load_pitches()) == 1990"

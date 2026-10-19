@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from importlib.resources import files
-from pathlib import Path
 from os import PathLike
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -33,7 +33,9 @@ def load_pitches(path: str | PathLike[str] | None = None) -> pd.DataFrame:
     Blank CSV values become pandas missing values. Numeric columns are coerced
     to numeric values and all original column names are preserved.
     """
-    csv_path: Any = Path(path) if path is not None else files("gaapitchfinder").joinpath("data", _BUNDLED_NAME)
+    csv_path: Any = (
+        Path(path) if path is not None else files("gaapitchfinder").joinpath("data", _BUNDLED_NAME)
+    )
     frame = pd.read_csv(csv_path, na_values=[""], keep_default_na=True)
     missing = [column for column in DATASET_COLUMNS if column not in frame.columns]
     if missing:

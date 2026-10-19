@@ -65,3 +65,13 @@ McGuinness: https://gaapitchfinder.com”.
 pip install -e ".[test]"
 pytest
 ```
+
+For the full maintainer checks:
+
+```bash
+pip install -e ".[dev]"
+ruff check .
+ruff format --check .
+python -m build
+twine check dist/*
+```
