@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gaapitchfinder"
+version = "0.1.0"
+description = "Load, search, analyse, and export the GAA Pitch Finder dataset."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "Ryan McGuinness" }]
+keywords = ["gaa", "gaelic-games", "pitches", "geospatial", "pandas"]
+dependencies = ["pandas>=2.0"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+
+[project.urls]
+Homepage = "https://gaapitchfinder.com"
+Repository = "https://github.com/ryanmcg2203/gaapitchfinder"
+Dataset = "https://github.com/ryanmcg2203/gaapitchfinder/blob/main/gaapitchfinder_data.csv"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gaapitchfinder"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/gaapitchfinder/data/gaapitchfinder.csv" = "gaapitchfinder/data/gaapitchfinder.csv"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
